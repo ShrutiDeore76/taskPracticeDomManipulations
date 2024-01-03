@@ -4,5 +4,8 @@ Index:
    questOfGetElementById.html
    questOfGetElementById.js
 2. getElementsByClassName Method : 
-note : change script filename to questOfGetElementsByClassName.js in file questOfGetElementById.html
-Added new file questOfGetElementsByClassName.js
+   note : change script filename to questOfGetElementsByClassName.js in file questOfGetElementById.html
+   Added new file questOfGetElementsByClassName.js
+3. getElementsByTagName method :
+   Added two files :- getElementsByTagName.html and getElementsByTagName.js
+
