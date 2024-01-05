@@ -12,4 +12,7 @@ Index:
    Added two files querySelectrquestn.html and querySelectrquestn.js
 5. Creating Elemnts and DOM relations :
    Added two files questnCreatngElemnts.html and questnCreatngElemnts.js
+6. Add And Delete Fruits :
+   Added three files questnAddDeltFruits.html , questnAddDeltFruits.js and style.css
+   
 
