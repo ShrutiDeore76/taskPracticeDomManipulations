@@ -14,5 +14,6 @@ Index:
    Added two files questnCreatngElemnts.html and questnCreatngElemnts.js
 6. Add And Delete Fruits :
    Added three files questnAddDeltFruits.html , questnAddDeltFruits.js and style.css
+7. Added one file for filter functionality question commit id : 7561403
    
 
