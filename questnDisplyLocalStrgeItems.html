@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin: 0">
+    <form onsubmit="handleFormSubmit(event)">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" />
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" />
+      <label for="phone">Phone No</label>
+      <input type="tel" name="phone" id="phone" />
+      <button type="submit">Submit</button>
+    </form>
+    <!-- Add Unordered List Element Here -->
+    <ul id="newul"></ul>
+  </body>
+  <!--<script src="index.js"></script>-->
+  <script>
+    function handleFormSubmit(event){
+        event.preventDefault();
+        const username = event.target.username.value;
+        const email = event.target.email.value;
+        const phone = event.target.phone.value;
+
+        const UserDetails ={
+        username : username,
+        email : email,
+        phone : phone
+        }
+
+        const userDetailsSerialized = JSON.stringify(UserDetails);
+        localStorage.setItem('User Details',userDetailsSerialized);
+
+
+
+       
+       // const newUl = document.createElement('ul');
+        const newLi = document.createElement('li');
+
+        const userDetlsObjDeserialized = JSON.parse(localStorage.getItem('User Details'));
+       
+        const text = userDetlsObjDeserialized.username+"-"
+                    +userDetlsObjDeserialized.email+"-"
+                    +userDetlsObjDeserialized.phone;
+    
+        const newLiText = document.createTextNode(text);
+        newLi.appendChild(newLiText);
+       // newUl.appendChild(newLi);
+       // console.log(newUl);
+
+        const newUl = document.querySelector("ul");
+        newUl.appendChild(newLi);
+      // const form = document.querySelector("form");
+       // form.appendChild(newUl);
+
+        //const divs = document.getElementById('newul');
+        //divs.appendChild(newUl);
+        //console.log(body);
+    }
+
+    module.exports = handleFormSubmit;
+  </script>
+</html>
