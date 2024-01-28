@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin: 0">
+    <form onsubmit="handleFormSubmit(event)">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" />
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" />
+      <label for="phone">Phone No</label>
+      <input type="tel" name="phone" id="phone" />
+      <button type="submit">Submit</button>
+    </form>
+    <ul id="userLists"></ul>
+  </body>
+  <!--<script src="index.js"></script>-->
+  <script>
+
+    //Note : create a separate .js file and write the javascript code in it
+    //for convenience purpose i have written code inside the script tag itself
+
+    
+    function handleFormSubmit(event){
+        event.preventDefault();
+        const username = event.target.username.value;
+        const email = event.target.email.value;
+        const phone = event.target.phone.value;
+
+        const UserDetails ={
+         username,
+         email,
+         phone
+        }
+
+        localStorage.setItem(UserDetails.email,JSON.stringify(UserDetails));
+
+        //show user on screen
+        const parentElement = document.getElementById('userLists');
+        //creating li
+        const newChildLi = document.createElement('li');
+        const text = UserDetails.username+"-"
+                    +UserDetails.email+"-"
+                    +UserDetails.phone;
+        const newLiText = document.createTextNode(text);
+        newChildLi.appendChild(newLiText);
+
+        //adding the delt button
+        const deltButton = document.createElement('input');
+        deltButton.type='button';
+        deltButton.value='Delete';
+        deltButton.onclick = () => {
+
+            localStorage.removeItem(UserDetails.email);
+            parentElement.removeChild(newChildLi);
+        }
+
+        
+        /*//adding the delt button which worked in shrpenr compiler 
+        and added similar way for edit button too
+
+        const deltButton = document.createElement('button');
+       // deltButton.type='button';
+        deltButton.value='Delete';
+        deltButton.onclick = () => {
+
+            localStorage.removeItem(UserDetails.email);
+            parentElement.removeChild(newChildLi);
+        }
+        
+        */
+
+        //adding the edit button
+        const editButton = document.createElement('input');
+        editButton.type='button';
+        editButton.value='Edit';
+        editButton.onclick = () => {
+
+            const targetValues = newChildLi.textContent.split("-");
+            document.getElementById('username').value=targetValues[0];
+            document.getElementById('email').value=targetValues[1];
+            document.getElementById('phone').value=targetValues[2];
+           // console.log("the target username is : ",targetUsername[1]);
+
+            localStorage.removeItem(UserDetails.email);
+            parentElement.removeChild(newChildLi);
+
+        }
+
+
+
+        newChildLi.appendChild(deltButton);
+        newChildLi.appendChild(editButton);
+        parentElement.appendChild(newChildLi);
+    }
+
+  </script>
+</html>
