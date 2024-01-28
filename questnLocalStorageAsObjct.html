@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin: 0">
+    <form onsubmit="handleFormSubmit(event)">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" />
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" />
+      <label for="phone">Phone No</label>
+      <input type="tel" name="phone" id="phone" />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+  <!--<script src="index.js"></script>-->
+  <script>
+    //Note : create a separate .js file and write the javascript code in it
+    //for convenience purpose i have written code inside the script tag itself
+
+    //works in sharpener compiler
+    function handleFormSubmit(event){
+
+        event.preventDefault();
+        const username = event.target.username.value;
+        const email = event.target.email.value;
+        const phone = event.target.phone.value;
+
+        const UserDetails ={
+        username : username,
+        email : email,
+        phone : phone
+        }
+
+        const userDetailsSerialized = JSON.stringify(UserDetails);
+
+        localStorage.setItem('User Details',userDetailsSerialized);
+        
+    }
+
+    module.exports = handleFormSubmit;
+
+    /*
+    //Works in local but did not work in sharpener compiler but is crrct
+    function handleFormSubmit(event){
+
+        event.preventDefault();
+        
+        const userName = document.getElementById('username').value;
+        const userEmail = document.getElementById('email').value;
+        const userPhoneNumbr = document.getElementById('phone').value;
+
+        const userDetails ={
+            username : userName,
+            email : userEmail,
+            phoneNumbr : userPhoneNumbr
+        }
+        //console.log('Phone is ',phone);
+        //console.log('User Phone is ',userPhoneNumbr);
+        //console.log(UserDetails);
+
+        const userDetailsSerialized = JSON.stringify(UserDetails);
+
+        localStorage.setItem('UserDetails',userDetailsSerialized);
+
+    }*/
+  </script>
+</html>
