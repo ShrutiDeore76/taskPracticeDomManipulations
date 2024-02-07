@@ -21,9 +21,21 @@ const posts = [
       }, 1000);
     });
   }
+
+  function deletePost(){
+    return new Promise( (resolve, reject) =>{
+        setTimeout( () => {
+            posts.pop();
+            resolve();
+        },1000)
+    })
+}
   
-  Promise.all([createPost({ title: "Post two" }), updateLastUserActivityTime()])
-    .then(([createPostResolved, updateActivityResolved]) => {
+  Promise.all([
+  createPost({ title: "Post two" }),
+  deletePost(), 
+  updateLastUserActivityTime()])
+    .then(([createPostResolved,, updateActivityResolved]) => {
       console.log("User Post : ", createPostResolved);
       console.log("Last Activity Time : ", updateActivityResolved);
     })
