@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+    crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+    crossorigin="anonymous"></script>
+  </head>
+  <body style="margin: 0" >
+    <div class="container">
+        <div class="card bg-primary bg-opacity-25">
+            <div class="card-body">
+                <h3 style="text-align: center;"><i>Grocery Store Seller Dashboard</i> </h3>
+            <form onsubmit="handleFormSubmit(event)">
+                <label for="itemName" class="form-label"> Item Name:</label>
+                <input type="text" name="itemName" id="itemName" class="form-control"/>
+                <label for="description" class="form-label"> Description:</label>
+                <input type="text" name="description" id="description" class="form-control"/>
+                <label for="price" class="form-label"> Price:</label>
+                <div class="input-group">
+                    <div class="input-group-text">Rs.</div>
+                    <input type="number" name="price" id="price" class="form-control"/>
+                </div>
+                <label for="quantity" class="form-label"> Quantity:</label>
+                <input type="number" name="quantity" id="quantity" class="form-control"/>
+                <button type="submit" class="btn btn-primary mt-2">Add Item</button>
+          </form>
+          <ul></ul>
+        </div>
+    </div>
+</div>
+</body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+  <script>
+    //Note for convenience purpose i have written the script code here itself 
+    //for better practise can make a separate file for the same and then mention
+    //the filename inside the src attribute of the script tag
+    function handleFormSubmit(event) {
+  event.preventDefault();
+  const groceries = {
+    itemName: event.target.itemName.value,
+    description: event.target.description.value,
+    price: event.target.price.value,
+    quantity: event.target.quantity.value,
+  };
+  axios
+    .post(
+      "https://crudcrud.com/api/57bbd663312b4b19abb5e1d6fcd35242/groceryData",
+      groceries
+    )
+    .then((response) => displayGroceryOnScreen(response.data))
+    .catch((error) => console.log(error));
+
+  // Clearing the input fields
+  document.getElementById("itemName").value = "";
+  document.getElementById("description").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("quantity").value = "";
+}
+
+function displayGroceryOnScreen(groceries) {
+  const groceryItem = document.createElement("li");
+  groceryItem.appendChild(
+    document.createTextNode(
+      `${groceries.itemName} - ${groceries.description} - ${groceries.price} Rs - ${groceries.quantity}`
+    )
+  );
+
+  const buy1Btn = document.createElement("button");
+  buy1Btn.appendChild(document.createTextNode("Buy 1"));
+  groceryItem.appendChild(buy1Btn);
+
+  const buy2Btn = document.createElement("button");
+  buy2Btn.appendChild(document.createTextNode("Buy 2"));
+  groceryItem.appendChild(buy2Btn);
+
+  const buy3Btn = document.createElement("button");
+  buy3Btn.appendChild(document.createTextNode("Buy 3"));
+  groceryItem.appendChild(buy3Btn);
+
+  const groceriesList = document.querySelector("ul");
+  groceriesList.appendChild(groceryItem);
+
+  buy1Btn.addEventListener("click", function (event) {
+    groceriesList.removeChild(event.target.parentElement);
+    let groceryIdToUpdate = groceries._id;
+
+    let updatedGroceryIem ={
+      
+        itemName: groceries.itemName,
+        description: groceries.description,
+        price: groceries.price,
+        quantity: groceries.quantity - 1
+
+    }
+
+    updateGroceryItem(updatedGroceryIem,groceryIdToUpdate);
+    
+  });
+
+  buy2Btn.addEventListener("click", function (event) {
+    groceriesList.removeChild(event.target.parentElement);
+    let groceryIdToUpdate = groceries._id;
+
+    let updatedGroceryIem ={
+      
+        itemName: groceries.itemName,
+        description: groceries.description,
+        price: groceries.price,
+        quantity: groceries.quantity - 2
+
+    }
+
+    updateGroceryItem(updatedGroceryIem,groceryIdToUpdate);
+
+  });
+
+  buy3Btn.addEventListener("click", function (event) {
+    groceriesList.removeChild(event.target.parentElement);
+    let groceryIdToUpdate = groceries._id;
+
+    let updatedGroceryIem ={
+      
+        itemName: groceries.itemName,
+        description: groceries.description,
+        price: groceries.price,
+        quantity: groceries.quantity - 3
+
+    }
+
+    updateGroceryItem(updatedGroceryIem,groceryIdToUpdate);
+  });
+
+
+}
+
+function updateGroceryItem(updatedGroceryIem , id)
+{
+  let groceryIdToUpdate = id;
+  
+  //Use this method to maintain the ordering of list of groceries after updating the quantity
+  //take time bit slow
+  axios
+    .put(`https://crudcrud.com/api/57bbd663312b4b19abb5e1d6fcd35242/groceryData/${groceryIdToUpdate}`,
+     updatedGroceryIem)
+    .then( (response) =>{
+       document.querySelector("ul").innerText="";
+       axios.get(`https://crudcrud.com/api/57bbd663312b4b19abb5e1d6fcd35242/groceryData`)
+         .then( (response) =>{
+
+            for(let i =0 ;i< response.data.length ;i++)
+            {
+              displayGroceryOnScreen(response.data[i])
+            }
+
+        } )
+        .catch((error) => console.log(error));
+      })
+    .catch(err => console.error(err));
+
+
+    //this method is fast but changes the ordering of the list of groceries
+    // axios
+    // .put(`https://crudcrud.com/api/57bbd663312b4b19abb5e1d6fcd35242/groceryData/${groceryIdToUpdate}`,
+    //  updatedGroceryIem)
+    // .then( (response) =>{
+    //     //console.log(response.data[0])
+    //    // console.log(response.data.length)
+    //    //document.querySelector("ul").innerText="";
+    //    axios.get(`https://crudcrud.com/api/57bbd663312b4b19abb5e1d6fcd35242/groceryData/${groceryIdToUpdate}`)
+    //      .then( (response) =>{
+
+    //         // for(let i =0 ;i< response.data.length ;i++)
+    //         // {
+    //           displayGroceryOnScreen(response.data)
+    //         // }
+
+    //     } )
+    //     .catch((error) => console.log(error));
+    //   })
+    // .catch(err => console.error(err));
+    
+}
+
+window.addEventListener('DOMContentLoaded',() => {
+    axios
+    .get(
+      "https://crudcrud.com/api/57bbd663312b4b19abb5e1d6fcd35242/groceryData")
+    .then((response) =>{
+        for(let i =0 ;i< response.data.length ;i++)
+        {
+          displayGroceryOnScreen(response.data[i])
+        }
+
+    })
+    .catch((error) => console.log(error));
+
+})
+  </script>
+</html>
